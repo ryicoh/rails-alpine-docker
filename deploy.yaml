@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: rails-app
+  namespace: app-test
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: rails-app
+  template:
+    metadata:
+      labels:
+        app: rails-app
+    spec:
+      containers:
+      - name: rails-app
+        image: miaulne/rails-alpine-docker
+        ports:
+        - containerPort: 3000
+        command:
+        - sh
+        - -c
+        - "bin/rails db:migrate RAILS_ENV=development && bin/rails s -b 0.0.0.0"
